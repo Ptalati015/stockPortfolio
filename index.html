@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Portfolio Management System</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <i class="material-icons" id='Home-opt'>home</i>
+
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id='Portfolio-opt' href="#">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id='History-opt' href="#">History</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container Home">
+        <div class="jumbotron mt-5">
+            <h1 class="display-4">Welcome to Stock Management System</h1>
+            <p class="lead">Manage your stock portfolio with ease and track your investments.</p>
+            <hr class="my-4">
+            <p>Get started by adding stocks to your portfolio or analyzing historical performance.</p>
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#learnMoreModal">Learn
+                more</button>
+        </div>
+    </div>
+
+    <!-- Learn More Modal -->
+    <div class="modal fade" id="learnMoreModal" tabindex="-1" role="dialog" aria-labelledby="learnMoreModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="learnMoreModalLabel">Stock Management System Features</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add detailed information about the features here -->
+                    <p>Feature 1: Add stocks to your portfolio</p>
+                    <p>Feature 2: Analyze historical performance of your portfolio</p>
+                    <p>Feature 3: Real-time stock data display</p>
+                    <p>Feature 4: Risk assessment and portfolio optimization</p>
+                    <!-- Add more features as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="container mt-5 Portfolio">
+        <h1 class="mb-4">Stock Portfolio Management System</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Stock</h5>
+                        <form id="addStockForm">
+                            <div class="form-group">
+                                <label for="symbol">Stock Symbol</label>
+                                <input type="text" class="form-control" id="symbol" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Portfolio Summary</h5>
+
+                        </div>
+                        <ul id="portfolioList" class="list-group">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Stock</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editStockForm">
+                        <div class="form-group">
+                            <label for="editQuantity">Quantity</label>
+                            <input type="number" class="form-control" id="editQuantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrice">Price</label>
+                            <input type="number" class="form-control" id="editPrice" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
+                    <button type="button" class="btn btn-danger" id="deleteStock">Delete Stock</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History -->
+
+    <div class="card History">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9">
+                    <h5 class="card-title">Historical Performance Analysis</h5>
+                </div>
+                <div class="col-3 text-right">
+                    <button type="button" class="btn btn-danger hist-back"><i
+                            class="material-icons">arrow_back</i></button>
+                </div>
+            </div>
+            <form id="historicalDataForm">
+                <div class="form-group">
+                    <label for="stockName">Stock Name</label>
+                    <input type="text" class="form-control" id="stockName" placeholder="Enter stock name">
+                </div>
+              
+                <button type="submit" class="btn btn-primary hist-button">Analyze Performance</button>
+            </form>
+
+            <div id="historicalDataDisplay">
+               
+            </div>
+
+        </div>
+        
+    </div>
+
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="scripts.js"></script>
+</body>
+
+</html>
